@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { HouseData } from '../controllers/houses-controller/types';
+import { HouseData } from '../types';
 
 const houseDataValidationSchema: yup.ObjectSchema<HouseData> = yup.object({
   title: yup.string()
