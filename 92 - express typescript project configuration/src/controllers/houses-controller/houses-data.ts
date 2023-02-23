@@ -2,6 +2,22 @@ import { HouseModel } from './types';
 
 const houses: HouseModel[] = [
   {
+    id: '1',
+    title: 'Earth Hobbit House',
+    location: {
+      country: 'Germany',
+      city: 'Greifenstein',
+    },
+    images: [
+      'https://a0.muscache.com/im/pictures/2cad476b-ec88-4384-b1d8-ace46b2fab3b.jpg?im_w=1200',
+      'https://a0.muscache.com/im/pictures/b0ebf587-56ee-4b15-88c3-f6b5a391a5b5.jpg?im_w=720',
+      'https://a0.muscache.com/im/pictures/miso/Hosting-718023/original/68c9bf4d-272e-4454-99b8-570a0e6972a3.jpeg?im_w=720',
+    ],
+    price: 233,
+    rating: 4.68,
+    hasJacuzzi: false,
+  },
+  {
     id: '2',
     title: 'Hut Lago Maggiore',
     location: {
@@ -15,6 +31,23 @@ const houses: HouseModel[] = [
     ],
     price: 62,
     rating: 4.24,
+    hasJacuzzi: true,
+  },
+  {
+    id: '3',
+    title: 'Jarga Clay hut year-round',
+    location: {
+      country: 'Poland',
+      city: 'Biernacice',
+    },
+    images: [
+      'https://a0.muscache.com/im/pictures/81e7bf0c-3933-4fd0-9eb3-d78d878b8f7c.jpg?im_w=1200',
+      'https://a0.muscache.com/im/pictures/5bda35a7-3178-4db8-94ff-1650b13636ce.jpg?im_w=720',
+      'https://a0.muscache.com/im/pictures/4bf9a8b0-b560-4335-8386-8191888d215d.jpg?im_w=720',
+    ],
+    price: 82,
+    rating: 3,
+    hasJacuzzi: false,
   },
   {
     id: '4',
@@ -30,6 +63,23 @@ const houses: HouseModel[] = [
     ],
     price: 269,
     rating: 4.45,
+    hasJacuzzi: true,
+  },
+  {
+    id: '5',
+    title: 'Eco Strawbale Retreat',
+    location: {
+      country: 'Poland',
+      city: 'Przełomka',
+    },
+    images: [
+      'https://a0.muscache.com/im/pictures/e1c7ecbf-f8f6-446c-99de-a31c472eba98.jpg?im_w=1200',
+      'https://a0.muscache.com/im/pictures/45c3ec2f-16ff-4646-9152-6489913a0617.jpg?im_w=720',
+      'https://a0.muscache.com/im/pictures/23e05999-701d-443e-8e59-efc1037472fb.jpg?im_w=720',
+    ],
+    price: 45,
+    rating: 4.98,
+    hasJacuzzi: false,
   },
   {
     id: '6',
@@ -45,6 +95,7 @@ const houses: HouseModel[] = [
     ],
     price: 71,
     rating: 4.2,
+    hasJacuzzi: false,
   },
   {
     id: '7',
@@ -60,6 +111,7 @@ const houses: HouseModel[] = [
     ],
     price: 66,
     rating: 4.87,
+    hasJacuzzi: true,
   },
   {
     id: '8',
@@ -75,6 +127,7 @@ const houses: HouseModel[] = [
     ],
     price: 146,
     rating: 4.34,
+    hasJacuzzi: false,
   },
   {
     id: '9',
@@ -90,6 +143,7 @@ const houses: HouseModel[] = [
     ],
     price: 388,
     rating: 4.18,
+    hasJacuzzi: true,
   },
   {
     id: '10',
@@ -105,6 +159,7 @@ const houses: HouseModel[] = [
     ],
     price: 57,
     rating: 4.68,
+    hasJacuzzi: false,
   },
   {
     id: '11',
@@ -120,6 +175,7 @@ const houses: HouseModel[] = [
     ],
     price: 439,
     rating: 3.75,
+    hasJacuzzi: false,
   },
   {
     id: '12',
@@ -135,6 +191,7 @@ const houses: HouseModel[] = [
     ],
     price: 923,
     rating: 5,
+    hasJacuzzi: true,
   },
 ];
 

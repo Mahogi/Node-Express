@@ -7,7 +7,8 @@ export type HouseModel = {
   },
   images: string[],
   price: number,
-  rating: number
+  rating: number,
+  hasJacuzzi: boolean,
 };
 
 export type HouseData = Omit<HouseModel, 'id'>;
