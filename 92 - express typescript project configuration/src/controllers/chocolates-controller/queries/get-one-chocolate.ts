@@ -1,7 +1,9 @@
 import { RequestHandler } from 'express';
-import mysql from 'mysql2/promise';
 import { ChocolateModel } from '../types';
-import config from '../../../config';
+import ChocoService from '../../../services/chocolates-service';
+
+// import mysql from 'mysql2/promise';
+// import config from '../../../config';
 // import chocolates from '../chocolate-data';
 
 export const getOneChocolate: RequestHandler<
@@ -16,36 +18,36 @@ ChocolateModel | ResponseError,
     res.status(400).json({ error: 'server setup error' });
     return;
   }
-  const mySqlConnection = await mysql.createConnection(config.db);
-  const [chocolates] = await mySqlConnection.query<ChocolateModel[]>(`
-    SELECT c.id, c.title, c.brand, i.cocoa, i.sugar, c.price, c.rating, JSON_ARRAYAGG(img.src)
-    FROM chocoImages as img
-    LEFT JOIN chocolates as c
-    ON img.chocoId = c.id
-    LEFT JOIN  ingredients as i
-    ON c.ingredientId = i.id
-    WHERE c.id = ${id}
-    GROUP BY c.id;
-   `);
-  await mySqlConnection.end();
 
-  if (chocolates.length === 0) {
-    res.status(404).json({ error: `chocolate with id <${id}> was not found` });
-    return;
+  try {
+    const chocolate = await ChocoService.getOneChocolate(id);
+    res.status(200).json(chocolate);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'request error';
+    res.status(404).json({ error: message });
   }
 
-  res.status(200).json(chocolates[0]);
-
-  // const foundChoco = chocolates.find((choco) => choco.id === id);
+  // const mySqlConnection = await mysql.createConnection(config.db);
+  // const [chocolates] = await mySqlConnection.query<ChocolateModel[]>(`
+  //   SELECT c.id, c.title, c.brand, i.cocoa, i.sugar, c.price, c.rating, JSON_ARRAYAGG(img.src)
+  //   FROM chocoImages as img
+  //   LEFT JOIN chocolates as c
+  //   ON img.chocoId = c.id
+  //   LEFT JOIN  ingredients as i
+  //   ON c.ingredientId = i.id
+  //   WHERE c.id = ${id}
+  //   GROUP BY c.id;
+  //  `);
+  // await mySqlConnection.end();
   //
-  // if (foundChoco === undefined) {
-  //   res.status(400).json({ error: `chocolate was not found with id '${id}'` });
+  // if (chocolates.length === 0) {
+  //   res.status(404).json({ error: `chocolate with id <${id}> was not found` });
   //   return;
   // }
   //
-  // res.status(200).json(foundChoco);
+  // res.status(200).json(chocolates[0]);
 };
-
+//-----------------------------
 // export const getHouse: RequestHandler<
 //   { id: string | undefined },
 //   HouseModel | ResponseError,

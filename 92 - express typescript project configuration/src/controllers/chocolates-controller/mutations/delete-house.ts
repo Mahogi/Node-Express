@@ -18,7 +18,7 @@ ChocolateModel | ResponseError,
   const foundChocoIndex = chocolates.findIndex((choco) => choco.id === id);
 
   if (foundChocoIndex === -1) {
-    res.status(400).json({ error: `house was not found with id '${id}'` });
+    res.status(400).json({ error: `chocolate was not found with id '${id}'` });
     return;
   }
 
