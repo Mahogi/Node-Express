@@ -1,10 +1,9 @@
 import express from 'express';
-// import { createChocolate } from './mutations/create-chocolate';
-// import { deleteChocolate } from './mutations/delete-house';
 // import { updateChocolate } from './mutations/update-chocolate';
 import { getOneChocolate } from './queries/get-one-chocolate';
 import { getChocolates } from './queries/get-chocolates';
 import { createChocolate } from './mutations/create-chocolate';
+import { deleteChocolate } from './mutations/delete-house';
 
 const chocolateRouter = express.Router();
 
@@ -12,9 +11,8 @@ chocolateRouter.get('/', getChocolates);
 chocolateRouter.get('/:id', getOneChocolate);
 chocolateRouter.post('/', createChocolate);
 
-// chocolateRouter.post('/', createChocolate);
 // chocolateRouter.patch('/:id', updateChocolate);
-// chocolateRouter.delete('/:id', deleteChocolate);
+chocolateRouter.delete('/:id', deleteChocolate);
 
 export default chocolateRouter;
 

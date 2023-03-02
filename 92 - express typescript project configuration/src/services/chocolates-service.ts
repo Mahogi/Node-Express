@@ -84,10 +84,26 @@ const createChocolate = async (chocolateData: ChocolateData): Promise<ChocolateM
   return createdChocolate;
 };
 
+const deleteChocolate = async (id: string): Promise<void> => {
+  const mySqlConnection = await mysql.createConnection(config.db);
+
+  const preparedSql = `
+    DELETE FROM chocoImages WHERE chocoId = ?;
+    DELETE from chocolates WHERE id = ?;
+    DELETE from ingredients WHERE id = ?;
+    `;
+  const preparedSqlData = [id, id, id];
+
+  await mySqlConnection.query<ChocolateModel[]>(preparedSql, preparedSqlData);
+
+  mySqlConnection.end();
+};
+
 const ChocoService = {
   getOneChocolate,
   getChocolates,
   createChocolate,
+  deleteChocolate,
 };
 
 export default ChocoService;
