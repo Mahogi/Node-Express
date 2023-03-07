@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
-const hasNutsSchema = yup.boolean()
-  .required('answering about the nuts is required');
+const hasNutsSchema = yup.boolean();
+// .required('answering about the nuts is required');
 
 export default hasNutsSchema;
 

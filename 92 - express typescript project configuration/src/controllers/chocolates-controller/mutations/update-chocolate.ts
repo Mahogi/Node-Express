@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express';
 import { ValidationError } from 'yup';
 import { ChocolateModel, PartialChocolateData } from '../types';
-import chocolates from '../chocolate-data';
+// import chocolates from '../chocolate-data';
+import ChocoService from '../../../services/chocolates-service';
 import partialChocoDataValidationSchema from '../validation-schemas/partial-choco-data-validation-schema';
 
 export const updateChocolate: RequestHandler<
@@ -9,7 +10,7 @@ export const updateChocolate: RequestHandler<
 ChocolateModel | ResponseError,
 PartialChocolateData,
 {}
-> = (req, res) => {
+> = async (req, res) => {
   const { id } = req.params;
 
   if (id === undefined) {
@@ -17,28 +18,36 @@ PartialChocolateData,
     return;
   }
 
-  const foundChocoIndex = chocolates.findIndex((choco) => choco.id === id);
+  // const foundChocoIndex = chocolates.findIndex((choco) => choco.id === id);
 
-  if (foundChocoIndex === -1) {
-    res.status(400).json({ error: `chocolate was not found with id '${id}'` });
-    return;
-  }
+  // if (foundChocoIndex === -1) {
+  //   res.status(400).json({ error: `chocolate was not found with id '${id}'` });
+  //   return;
+  // }
 
   try {
-    const partialChocolateData = partialChocoDataValidationSchema.validateSync(
+    const partialChocoData = partialChocoDataValidationSchema.validateSync(
       req.body,
       { abortEarly: false },
     );
-    const foundChoco = chocolates[foundChocoIndex];
 
-    const updatedChoco: ChocolateModel = {
-      ...foundChoco,
-      ...partialChocolateData,
-    };
-
-    chocolates.splice(foundChocoIndex, 1, updatedChoco);
-
-    res.status(200).json(updatedChoco);
+    const updatedChocolate = await ChocoService.updateChocolate(id, partialChocoData);
+    res.status(200).json(updatedChocolate);
+  // try {
+  //   const partialChocolateData = partialChocoDataValidationSchema.validateSync(
+  //     req.body,
+  //     { abortEarly: false },
+  //   );
+  //   const foundChoco = chocolates[foundChocoIndex];
+  //
+  //   const updatedChoco: ChocolateModel = {
+  //     ...foundChoco,
+  //     ...partialChocolateData,
+  //   };
+  //
+  //   chocolates.splice(foundChocoIndex, 1, updatedChoco);
+  //
+  //   res.status(200).json(updatedChoco);
   } catch (err) {
     if (err instanceof ValidationError) {
       const manyErrors = err.errors.length > 1;

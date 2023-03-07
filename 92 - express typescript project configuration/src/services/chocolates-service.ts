@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import config from '../config';
-import { ChocolateModel, ChocolateData } from '../controllers/chocolates-controller/types';
+import { ChocolateModel, ChocolateData, PartialChocolateData } from '../controllers/chocolates-controller/types';
+import { colonObjectQueryFormat } from './my-sql';
 
 type CreateChocoQueryResult = [
   mysql.ResultSetHeader,
@@ -99,11 +100,94 @@ const deleteChocolate = async (id: string): Promise<void> => {
   mySqlConnection.end();
 };
 
+const updateChocolate = async (id: string, chocolateData: PartialChocolateData): Promise<ChocolateModel> => {
+  const mySqlConnection = await mysql.createConnection(config.db);
+  mySqlConnection.config.queryFormat = colonObjectQueryFormat;
+
+  const imagesBindings = chocolateData.chocoImages?.reduce((prevBindings: any, img: string, i: number) => ({
+    ...prevBindings,
+    [`img${i + 1}`]: img,
+  }), {} as Record<string, string>) ?? null;
+  const shouldAddNewImages = chocolateData.chocoImages !== undefined && chocolateData.chocoImages.length > 0;
+
+  const imagesUpdatePreparedSql = imagesBindings !== null
+    ? `
+      DELETE FROM chocoImages 
+      WHERE chocoImages.chocoId = :id;
+    
+      ${shouldAddNewImages ? `INSERT INTO chocoImages (src, chocoId) VALUES
+        ${Object.keys(imagesBindings).map((imgBinding) => `(:${imgBinding}, :id)`).join(',\n')};`
+    : ''}
+    ` : '';
+
+  // Location SQL
+  const ingredientsExist = chocolateData.ingredients !== undefined;
+  const ingredientsInsertSql = ingredientsExist ? `
+    INSERT INTO ingredients (cocoa, sugar) VALUES
+    (:cocoa, :sugar);` : '';
+
+  // Property SQL
+  const chocoSetPropsSql = [
+    chocolateData.title !== undefined ? 'title = :title' : null,
+    chocolateData.brand !== undefined ? 'brand = :brand' : null,
+    chocolateData.price !== undefined ? 'price = :price' : null,
+    chocolateData.rating !== undefined ? 'rating = :rating' : null,
+    chocolateData.hasNuts !== undefined ? 'hasNuts = :hasNuts' : null,
+    ingredientsExist ? 'ingredientId = LAST_INSERT_ID()' : null,
+  ].filter((setPropSql) => setPropSql !== null).join(',\n');
+
+  const preparedSql = `
+    ${imagesUpdatePreparedSql}
+    ${ingredientsInsertSql}
+    ${chocoSetPropsSql.length > 0 ? `
+    UPDATE chocolates SET
+      ${chocoSetPropsSql}
+      WHERE chocolates.id = :id;
+    ` : ''}
+    
+    SELECT 
+      c.id, 
+      c.title,
+      c.brand,
+      c.price, 
+      JSON_OBJECT('cocoa', i.cocoa, 'sugar', i.sugar) as ingredients,
+      c.rating, 
+      c.hasNuts,
+      IF(COUNT(img.id) = 0, JSON_ARRAY(), JSON_ARRAYAGG(img.src)) as chocoImages
+    FROM chocolates as c
+    LEFT JOIN chocoImages as img
+    ON img.chocoId = c.id
+    LEFT JOIN  ingredients as i
+    ON c.ingredientId = i.id
+    WHERE c.id = :id
+    GROUP BY c.id;
+  `.trim();
+
+  const bindings = {
+    id,
+    ...imagesBindings,
+    ...chocolateData.ingredients,
+    title: chocolateData.title,
+    brand: chocolateData.brand,
+    price: chocolateData.price,
+    rating: chocolateData.rating,
+    hasNuts: chocolateData.hasNuts,
+  };
+
+  const [queryResultsArr] = await mySqlConnection.query<ChocolateModel[]>(preparedSql, bindings);
+  const updatedChocolate = queryResultsArr.at(-1) as ChocolateModel;
+
+  await mySqlConnection.end();
+
+  return updatedChocolate;
+};
+
 const ChocoService = {
   getOneChocolate,
   getChocolates,
   createChocolate,
   deleteChocolate,
+  updateChocolate,
 };
 
 export default ChocoService;
