@@ -1,6 +1,6 @@
 import { RowDataPacket } from 'mysql2';
 
-export interface ChocolateModel extends RowDataPacket {
+export interface ChocolateViewModel extends RowDataPacket {
 // export type PrivateChocolateModel = {
   id: string,
   title: string,
@@ -15,7 +15,7 @@ export interface ChocolateModel extends RowDataPacket {
   chocoImages: string[],
 }
 
-export type ChocolateData = Omit<ChocolateModel, 'id'>;
+export type ChocolateData = Omit<ChocolateViewModel, 'id'>;
 // export type ChocolateModel = PrivateChocolateModel & RowDataPacket;
 // export type ChocolateData = Omit<PrivateChocolateModel, 'id'>;
 export type PartialChocolateData = Partial<ChocolateData>;

@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
-import { ChocolateModel } from '../types';
-import ChocoService from '../../../services/chocolates-service';
+import { ChocolateViewModel } from '../types';
+import ErrorService, { ServerSetupError } from '../../services/error-service';
+import ChocolatesModel from '../model';
 
 // import mysql from 'mysql2/promise';
 // import config from '../../../config';
@@ -8,23 +9,22 @@ import ChocoService from '../../../services/chocolates-service';
 
 export const getOneChocolate: RequestHandler<
 { id: string | undefined },
-ChocolateModel | ResponseError,
+ChocolateViewModel | ResponseError,
 {},
 {}
 > = async (req, res) => {
   const { id } = req.params;
 
-  if (id === undefined) {
-    res.status(400).json({ error: 'server setup error' });
-    return;
-  }
-
   try {
-    const chocolate = await ChocoService.getOneChocolate(id);
+    if (id === undefined) throw new ServerSetupError();
+    const chocolate = await ChocolatesModel.getOneChocolate(id);
+
     res.status(200).json(chocolate);
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'request error';
-    res.status(404).json({ error: message });
+    const [status, errorResponse] = ErrorService.handleError(error);
+    res.status(status).json(errorResponse);
+    console.log(status);
+    console.log(errorResponse);
   }
 
   // const mySqlConnection = await mysql.createConnection(config.db);

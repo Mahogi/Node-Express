@@ -6,15 +6,15 @@ import config from '../config';
 //
 // export default createToken;
 
-type Data = {
-  email: UserEntity['email'],
-  role: UserEntity['role'],
-};
-type DecodedData = Data & { iat: number };
+// type Data = {
+//   email: UserEntity['email'],
+//   role: UserEntity['role'],
+// };
+// type DecodedData = Data & { iat: number };
 
-const create = (data: Data) => jwt.sign(data, config.secret.jwtTokenKey);
+const create = (data: AuthData) => jwt.sign(data, config.secret.jwtTokenKey);
 
-const decode = (token: string) => jwt.decode(token) as (DecodedData | null);
+const decode = (token: string) => jwt.decode(token) as (DecodedAuthData | null);
 
 const TokenSevice = {
   create,

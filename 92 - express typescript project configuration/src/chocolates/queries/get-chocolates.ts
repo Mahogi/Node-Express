@@ -1,18 +1,22 @@
 import { RequestHandler } from 'express';
-import { ChocolateModel } from '../types';
-import ChocoService from '../../../services/chocolates-service';
-
-// import mysql from 'mysql2/promise';
-// import config from '../../../config';
-// import './services/my-sql';
+import { ChocolateViewModel } from '../types';
+import ErrorService from '../../services/error-service';
+import ChocolatesModel from '../model';
 
 export const getChocolates: RequestHandler<
 {},
-ChocolateModel[],
+ChocolateViewModel[] | ResponseError,
 {},
 {}
 > = async (req, res) => {
-  const chocolates = await ChocoService.getChocolates();
+  try {
+    const chocolates = await ChocolatesModel.getChocolates();
+    res.status(200).json(chocolates);
+  } catch (error) {
+    const [status, errorResponse] = ErrorService.handleError(error);
+    res.status(status).json(errorResponse);
+  }
+
   // const mySqlConnection = await mysql.createConnection(config.db);
   // const [chocolates] = await mySqlConnection.query<ChocolateModel[]>(`
   //   SELECT c.id, c.title, c.brand, i.cocoa, i.sugar, c.price, c.rating, JSON_ARRAYAGG(img.src)
@@ -24,5 +28,4 @@ ChocolateModel[],
   //   GROUP BY c.id;
   //  `);
   // await mySqlConnection.end();
-  res.status(200).json(chocolates);
 };

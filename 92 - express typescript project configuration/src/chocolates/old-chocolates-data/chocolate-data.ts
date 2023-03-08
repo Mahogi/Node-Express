@@ -1,6 +1,6 @@
-import { ChocolateModel } from './types';
+import { ChocolateViewModel } from '../types';
 
-const chocolates: ChocolateModel[] = [
+const chocolates: ChocolateViewModel[] = [
   {
     id: '1',
     title: 'Dark Chocolate',

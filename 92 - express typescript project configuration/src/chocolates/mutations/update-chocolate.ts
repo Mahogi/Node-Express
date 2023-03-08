@@ -1,22 +1,16 @@
 import { RequestHandler } from 'express';
-import { ValidationError } from 'yup';
-import { ChocolateModel, PartialChocolateData } from '../types';
-// import chocolates from '../chocolate-data';
-import ChocoService from '../../../services/chocolates-service';
+import { ChocolateViewModel, PartialChocolateData } from '../types';
+import ChocolatesModel from '../model';
 import partialChocoDataValidationSchema from '../validation-schemas/partial-choco-data-validation-schema';
+import ErrorService, { ServerSetupError } from '../../services/error-service';
 
 export const updateChocolate: RequestHandler<
 { id: string | undefined },
-ChocolateModel | ResponseError,
+ChocolateViewModel | ResponseError,
 PartialChocolateData,
 {}
 > = async (req, res) => {
   const { id } = req.params;
-
-  if (id === undefined) {
-    res.status(400).json({ error: 'server setup error' });
-    return;
-  }
 
   // const foundChocoIndex = chocolates.findIndex((choco) => choco.id === id);
 
@@ -26,12 +20,13 @@ PartialChocolateData,
   // }
 
   try {
+    if (id === undefined) throw new ServerSetupError();
     const partialChocoData = partialChocoDataValidationSchema.validateSync(
       req.body,
       { abortEarly: false },
     );
 
-    const updatedChocolate = await ChocoService.updateChocolate(id, partialChocoData);
+    const updatedChocolate = await ChocolatesModel.updateChocolate(id, partialChocoData);
     res.status(200).json(updatedChocolate);
   // try {
   //   const partialChocolateData = partialChocoDataValidationSchema.validateSync(
@@ -49,17 +44,8 @@ PartialChocolateData,
   //
   //   res.status(200).json(updatedChoco);
   } catch (err) {
-    if (err instanceof ValidationError) {
-      const manyErrors = err.errors.length > 1;
-      res.status(400).json({
-        error: manyErrors ? 'Validation errors' : err.errors[0],
-        errors: manyErrors ? err.errors : undefined,
-      });
-    } else if (err instanceof Error) {
-      res.status(400).json({ error: err.message });
-    } else {
-      res.status(400).json({ error: 'Request error' });
-    }
+    const [status, errorResponse] = ErrorService.handleError(err);
+    res.status(status).json(errorResponse);
   }
 };
 

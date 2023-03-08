@@ -1,5 +1,5 @@
-import express from 'express';
-
+import express, { RequestHandler } from 'express';
+import authMiddleware from '../middleware/auth-middleware';
 import { getOneChocolate } from './queries/get-one-chocolate';
 import { getChocolates } from './queries/get-chocolates';
 import { createChocolate } from './mutations/create-chocolate';
@@ -10,10 +10,10 @@ const chocolateRouter = express.Router();
 
 chocolateRouter.get('/', getChocolates);
 chocolateRouter.get('/:id', getOneChocolate);
-chocolateRouter.post('/', createChocolate);
 
-chocolateRouter.patch('/:id', updateChocolate);
-chocolateRouter.delete('/:id', deleteChocolate);
+chocolateRouter.post('/', authMiddleware, createChocolate);
+chocolateRouter.patch('/:id', authMiddleware, updateChocolate as RequestHandler);
+chocolateRouter.delete('/:id', authMiddleware, deleteChocolate as RequestHandler);
 
 export default chocolateRouter;
 

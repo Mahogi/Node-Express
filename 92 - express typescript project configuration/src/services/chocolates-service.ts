@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import config from '../config';
-import { ChocolateModel, ChocolateData, PartialChocolateData } from '../controllers/chocolates-controller/types';
+import { ChocolateViewModel, ChocolateData, PartialChocolateData } from '../chocolates/types';
 import { colonObjectQueryFormat } from './my-sql';
 
 type CreateChocoQueryResult = [
@@ -8,7 +8,7 @@ type CreateChocoQueryResult = [
   mysql.ResultSetHeader,
   mysql.ResultSetHeader,
   mysql.ResultSetHeader,
-  ChocolateModel[],
+  ChocolateViewModel[],
 ];
 
 const SQL_SELECT = `SELECT c.id, c.title, c.brand, i.cocoa, i.sugar, c.price, c.rating, JSON_ARRAYAGG(img.src)
@@ -20,21 +20,21 @@ const SQL_SELECT = `SELECT c.id, c.title, c.brand, i.cocoa, i.sugar, c.price, c.
 const SQL_GROUP = 'GROUP BY c.id;';
 const SQL_WHERE_ID = 'WHERE c.id = ?';
 
-const getChocolates = async (): Promise<ChocolateModel[]> => {
+const getChocolates = async (): Promise<ChocolateViewModel[]> => {
   const mySqlConnection = await mysql.createConnection(config.db);
   const sql = [SQL_SELECT, SQL_GROUP].join('\n');
-  const [chocolates] = await mySqlConnection.query<ChocolateModel[]>(sql);
+  const [chocolates] = await mySqlConnection.query<ChocolateViewModel[]>(sql);
   // const chocolates = await chocolateQuery();
 
   return chocolates;
 };
 
-const getOneChocolate = async (id: string): Promise<ChocolateModel> => {
+const getOneChocolate = async (id: string): Promise<ChocolateViewModel> => {
   // const chocolate = await chocolateQuery({ chocoId: id });
   const mySqlConnection = await mysql.createConnection(config.db);
   const preparedSql = [SQL_SELECT, SQL_WHERE_ID, SQL_GROUP].join('\n');
   const preparedSqlData = [id];
-  const [chocolates] = await mySqlConnection.query<ChocolateModel[]>(preparedSql, preparedSqlData);
+  const [chocolates] = await mySqlConnection.query<ChocolateViewModel[]>(preparedSql, preparedSqlData);
 
   mySqlConnection.end();
   if (chocolates.length === 0) {
@@ -45,7 +45,7 @@ const getOneChocolate = async (id: string): Promise<ChocolateModel> => {
   return chocolates[0];
 };
 
-const createChocolate = async (chocolateData: ChocolateData): Promise<ChocolateModel> => {
+const createChocolate = async (chocolateData: ChocolateData): Promise<ChocolateViewModel> => {
   const mySqlConnection = await mysql.createConnection(config.db);
 
   // console.log('--- making preparedSQL ---');
@@ -95,12 +95,12 @@ const deleteChocolate = async (id: string): Promise<void> => {
     `;
   const preparedSqlData = [id, id, id];
 
-  await mySqlConnection.query<ChocolateModel[]>(preparedSql, preparedSqlData);
+  await mySqlConnection.query<ChocolateViewModel[]>(preparedSql, preparedSqlData);
 
   mySqlConnection.end();
 };
 
-const updateChocolate = async (id: string, chocolateData: PartialChocolateData): Promise<ChocolateModel> => {
+const updateChocolate = async (id: string, chocolateData: PartialChocolateData): Promise<ChocolateViewModel> => {
   const mySqlConnection = await mysql.createConnection(config.db);
   mySqlConnection.config.queryFormat = colonObjectQueryFormat;
 
@@ -174,8 +174,8 @@ const updateChocolate = async (id: string, chocolateData: PartialChocolateData):
     hasNuts: chocolateData.hasNuts,
   };
 
-  const [queryResultsArr] = await mySqlConnection.query<ChocolateModel[]>(preparedSql, bindings);
-  const updatedChocolate = queryResultsArr.at(-1) as ChocolateModel;
+  const [queryResultsArr] = await mySqlConnection.query<ChocolateViewModel[]>(preparedSql, bindings);
+  const updatedChocolate = queryResultsArr.at(-1) as ChocolateViewModel;
 
   await mySqlConnection.end();
 

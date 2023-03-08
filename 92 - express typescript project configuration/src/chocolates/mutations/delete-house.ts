@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
-import { ChocolateModel } from '../types';
-import ChocoService from '../../../services/chocolates-service';
+import { ChocolateViewModel } from '../types';
+import ChocolatesModel from '../model';
 
 export const deleteChocolate: RequestHandler<
 { id: string | undefined },
-ChocolateModel | ResponseError,
+ChocolateViewModel | ResponseError,
 {},
 {}
 > = async (req, res) => {
@@ -17,8 +17,8 @@ ChocolateModel | ResponseError,
 
   // console.log('Trying to delete a chocolate');
   try {
-    const chocolate = await ChocoService.getOneChocolate(id);
-    await ChocoService.deleteChocolate(id);
+    const chocolate = await ChocolatesModel.getOneChocolate(id);
+    await ChocolatesModel.deleteChocolate(id);
     res.status(200).json(chocolate);
   } catch (err) {
     if (err instanceof Error) {
