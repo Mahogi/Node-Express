@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import ErrorService from '../services/error-service';
 import { CredentialsPartial, AuthSuccessResponse } from './types';
 import credentialsValidationSchema from './validation-schemas/credentials-validation-schema';
-import UserModel from './model';
+import UserModel from '../models/user-model';
 import BcryptService from '../services/brcypt-service';
 import { createAuthSuccessResponse } from './helpers/create-auth-success-response';
 
@@ -15,7 +15,7 @@ CredentialsPartial,
 > = async (req, res) => {
   try {
     const credentials = credentialsValidationSchema.validateSync(req.body, { abortEarly: false });
-    const user = await UserModel.getUser(credentials.email);
+    const user = await UserModel.getUserByEmail(credentials.email);
     const validPassword = BcryptService.compare(credentials.password, user.password);
 
     if (!validPassword) throw new Error('Incorrect password');

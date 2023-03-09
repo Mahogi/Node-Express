@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import config from '../../config';
-import { UserEntityRow } from '../types';
+import { UserEntityRow } from '../../auth/types';
 import SQL from './sql';
 import BcryptService from '../../services/brcypt-service';
 

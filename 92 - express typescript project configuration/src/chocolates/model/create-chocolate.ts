@@ -18,8 +18,8 @@ export const createChocolate = async (chocolateData: ChocolateData): Promise<Cho
     INSERT INTO ingredients (cocoa, sugar) VALUES 
     (?, ?);
     
-    INSERT INTO chocolates (title, brand, price, rating, hasNuts, ingredientId) VALUES
-    (?, ?, ?, ?, ?, LAST_INSERT_ID());
+    INSERT INTO chocolates (title, brand, price, rating, hasNuts, personId, ingredientId) VALUES
+    (?, ?, ?, ?, ?, ?, LAST_INSERT_ID());
     SET @chocoId = LAST_INSERT_ID();
 
     INSERT INTO chocoImages (src, chocoId) VALUES
@@ -37,6 +37,7 @@ export const createChocolate = async (chocolateData: ChocolateData): Promise<Cho
     chocolateData.price,
     chocolateData.rating,
     chocolateData.hasNuts,
+    chocolateData.personId,
     ...chocolateData.chocoImages,
   ];
 

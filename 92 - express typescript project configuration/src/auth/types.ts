@@ -27,12 +27,8 @@ export type AuthSuccessResponse = {
   user: UserViewModel,
 };
 
-export type RegistrationData = {
-  email: string,
-  name: string,
-  surname: string,
-  password: string,
+export type RegistrationData = Omit<UserEntity, 'id' | 'role'>;
+
+export type RegistrationBody = RegistrationData & {
   passwordConfirmation: string,
-  photo: string,
-  isMarried: boolean,
 };

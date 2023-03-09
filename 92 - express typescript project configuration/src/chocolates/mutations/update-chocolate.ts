@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { ChocolateViewModel, PartialChocolateData } from '../types';
+import { ChocolateViewModel, PartialChocolateBody } from '../types';
 import ChocolatesModel from '../model';
 import partialChocoDataValidationSchema from '../validation-schemas/partial-choco-data-validation-schema';
 import ErrorService, { ServerSetupError } from '../../services/error-service';
@@ -7,7 +7,7 @@ import ErrorService, { ServerSetupError } from '../../services/error-service';
 export const updateChocolate: RequestHandler<
 { id: string | undefined },
 ChocolateViewModel | ResponseError,
-PartialChocolateData,
+PartialChocolateBody,
 {}
 > = async (req, res) => {
   const { id } = req.params;

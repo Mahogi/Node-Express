@@ -2,11 +2,11 @@ import mysql from 'mysql2/promise';
 import config from '../../config';
 import { colonObjectQueryFormat } from '../../services/my-sql';
 import SQL from './sql';
-import { ChocolateViewModel, PartialChocolateData } from '../types';
+import { ChocolateViewModel, PartialChocolateBody } from '../types';
 
 type PrepareSqlResult = [string, Record<string, string>];
 
-type PrepareSql = (chocolateData: PartialChocolateData) => PrepareSqlResult;
+type PrepareSql = (chocolateData: PartialChocolateBody) => PrepareSqlResult;
 
 const prepareImagesSql: PrepareSql = (chocolateData) => {
   const bindingsOrNull = chocolateData.images?.reduce((prevBindings: any, img: string, i: number) => ({
@@ -69,7 +69,7 @@ const prepareChocoSql: PrepareSql = (chocolateData) => {
 
 export const updateChocolate = async (
   id: string,
-  chocoData: PartialChocolateData,
+  chocoData: PartialChocolateBody,
 ): Promise<ChocolateViewModel> => {
   const mySqlConnection = await mysql.createConnection(config.db);
   mySqlConnection.config.queryFormat = colonObjectQueryFormat;

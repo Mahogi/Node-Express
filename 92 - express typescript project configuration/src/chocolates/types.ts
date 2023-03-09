@@ -13,12 +13,15 @@ export interface ChocolateViewModel extends RowDataPacket {
   rating: number,
   hasNuts: boolean,
   chocoImages: string[],
+  personId: number,
 }
 
 export type ChocolateData = Omit<ChocolateViewModel, 'id'>;
+
+export type ChocolateBody = Omit<ChocolateData, 'personId'>;
 // export type ChocolateModel = PrivateChocolateModel & RowDataPacket;
 // export type ChocolateData = Omit<PrivateChocolateModel, 'id'>;
-export type PartialChocolateData = Partial<ChocolateData>;
+export type PartialChocolateBody = Partial<ChocolateBody>;
 
 // export type HouseModel = {
 //   id: string,

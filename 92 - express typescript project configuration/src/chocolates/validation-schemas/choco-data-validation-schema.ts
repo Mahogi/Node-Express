@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { ChocolateData } from '../types';
+import { ChocolateBody } from '../types';
 import ChocoImagesSchema from './property-schemas/choco-images-schema';
 import ingredientsSchema from './property-schemas/ingredients-schema';
 import priceSchema from './property-schemas/price-schema';
@@ -8,7 +8,7 @@ import titleSchema from './property-schemas/title-schema';
 import brandSchema from './property-schemas/brand-schema';
 import hasNutsSchema from './property-schemas/hasNutsSchema';
 
-const chocoDataValidationSchema: yup.ObjectSchema<ChocolateData> = yup.object({
+const chocoDataValidationSchema: yup.ObjectSchema<ChocolateBody> = yup.object({
   title: titleSchema.required('title is required'),
   brand: brandSchema.required('brand is required'),
   ingredients: ingredientsSchema.required('ingredients are required'),

@@ -1,24 +1,31 @@
 import { RequestHandler } from 'express';
-import { ChocolateViewModel, PartialChocolateData } from '../types';
+import { ChocolateViewModel, PartialChocolateBody } from '../types';
 import chocoDataValidationSchema from '../validation-schemas/choco-data-validation-schema';
-import ErrorService from '../../services/error-service';
+import ErrorService, { ServerSetupError } from '../../services/error-service';
 import ChocolatesModel from '../model';
+import UserModel from '../../models/user-model';
 
 export const createChocolate: RequestHandler<
 {},
 ChocolateViewModel | ResponseError,
-PartialChocolateData,
+PartialChocolateBody,
 {}
 > = async (req, res) => {
   // console.log('Trying to create a chocolate');
   try {
+    console.log('Trying to validate  a chocolate');
     const chocolateData = chocoDataValidationSchema
       .validateSync(req.body, { abortEarly: false });
-    // console.log('chocolateData was validated');
-    // const newChocolate: ChocolateModel = { id: createId(), ...chocoData };
-    // chocolates.push(newChocolate);
-    // console.log(createdChocolate);
-    const createdChocolate = await ChocolatesModel.createChocolate(chocolateData);
+
+    if (req.authData === undefined) throw new ServerSetupError();
+    console.log('Trying to fetch user');
+    const user = await UserModel.getUserByEmail(req.authData.email);
+    console.log(user.id);
+
+    console.log('Trying to create chocolate');
+    const createdChocolate = await ChocolatesModel
+      .createChocolate({ ...chocolateData, personId: user.id });
+    console.log('success');
 
     res.status(201).json(createdChocolate);
   } catch (err) {

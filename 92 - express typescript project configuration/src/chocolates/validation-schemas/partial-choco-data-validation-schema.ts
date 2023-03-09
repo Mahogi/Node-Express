@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { PartialChocolateData } from '../types';
+import { PartialChocolateBody } from '../types';
 import titleSchema from './property-schemas/title-schema';
 import ingredientsSchema from './property-schemas/ingredients-schema';
 import ChocoImagesSchema from './property-schemas/choco-images-schema';
@@ -8,7 +8,7 @@ import ratingSchema from './property-schemas/rating-schema';
 import brandSchema from './property-schemas/brand-schema';
 import hasNutsSchema from './property-schemas/hasNutsSchema';
 
-const partialChocoDataValidationSchema: yup.ObjectSchema<PartialChocolateData> = yup.object({
+const partialChocoDataValidationSchema: yup.ObjectSchema<PartialChocolateBody> = yup.object({
   title: titleSchema,
   brand: brandSchema,
   ingredients: ingredientsSchema,
