@@ -2,7 +2,8 @@ import { RequestHandler } from 'express';
 import { ChocolateViewModel, PartialChocolateBody } from '../types';
 import ChocolatesModel from '../model';
 import partialChocoDataValidationSchema from '../validation-schemas/partial-choco-data-validation-schema';
-import ErrorService, { ServerSetupError } from '../../services/error-service';
+import ErrorService, { ForbiddenError, ServerSetupError } from '../../services/error-service';
+import UserModel from '../../models/user-model';
 
 export const updateChocolate: RequestHandler<
 { id: string | undefined },
@@ -21,10 +22,16 @@ PartialChocolateBody,
 
   try {
     if (id === undefined) throw new ServerSetupError();
+    if (req.authData === undefined) throw new ServerSetupError();
+
     const partialChocoData = partialChocoDataValidationSchema.validateSync(
       req.body,
       { abortEarly: false },
     );
+
+    const user = await UserModel.getUserByEmail(req.authData.email);
+    const chocolate = await ChocolatesModel.getOneChocolate(id);
+    if (user.role !== 'ADMIN' && user.id !== chocolate.person.id) throw new ForbiddenError();
 
     const updatedChocolate = await ChocolatesModel.updateChocolate(id, partialChocoData);
     res.status(200).json(updatedChocolate);

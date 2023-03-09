@@ -14,6 +14,12 @@ export class AuthorizationError extends Error {
   }
 }
 
+export class ForbiddenError extends Error {
+  constructor() {
+    super('Insufficient privileges');
+  }
+}
+
 const handleError = (err: unknown): [number, ResponseError] => {
   let status = 400;
   const errorResponse: ResponseError = {

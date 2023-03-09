@@ -8,6 +8,7 @@ c.price,
 c.rating, 
 IF(COUNT(img.id) = 0, JSON_ARRAY(), JSON_ARRAYAGG(img.src)) as images,
 JSON_OBJECT(
+  'id', u.id,
   'name', u.name,
   'surname', u.surname,
   'email', u.email,
