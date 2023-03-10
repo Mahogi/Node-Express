@@ -12,9 +12,21 @@ import config from '../config';
 // };
 // type DecodedData = Data & { iat: number };
 
-const create = (data: AuthData) => jwt.sign(data, config.secret.jwtTokenKey);
+const create = (data: AuthData) => jwt.sign(data, config.jwtToken.secret, {
+  expiresIn: config.jwtToken.expiresIn,
+});
 
-const decode = (token: string) => jwt.decode(token) as (DecodedAuthData | null);
+const decode = (token: string): DecodedAuthData | null => {
+  const data = jwt.decode(token);
+  if (data === null) return null;
+  if (typeof data === 'string') return null;
+
+  return {
+    iat: data.iat as number,
+    exp: data.exp as number,
+    email: data.email,
+  };
+};
 
 const TokenSevice = {
   create,

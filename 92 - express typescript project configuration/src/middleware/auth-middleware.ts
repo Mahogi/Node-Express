@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import ErrorService, { AuthorizationError } from '../services/error-service';
+import ErrorService, { AuthorizationError, ExpiredError } from '../services/error-service';
 import TokenSevice from '../services/token-service';
 
 const authMiddleware: RequestHandler = (req, res, next) => {
@@ -13,6 +13,9 @@ const authMiddleware: RequestHandler = (req, res, next) => {
 
     const authData = TokenSevice.decode(token);
     if (authData === null) throw new AuthorizationError();
+
+    const timeStampNow = Math.round(new Date().valueOf() / 1000);
+    if (authData.exp < timeStampNow) throw new ExpiredError();
 
     req.authData = authData;
     next();
