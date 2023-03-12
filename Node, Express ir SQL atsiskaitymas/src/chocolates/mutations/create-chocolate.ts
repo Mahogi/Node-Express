@@ -13,14 +13,13 @@ PartialChocolateBody,
 > = async (req, res) => {
   // console.log('Trying to create a chocolate');
   try {
-    console.log('Trying to validate  a chocolate');
     const chocolateData = chocoDataValidationSchema
       .validateSync(req.body, { abortEarly: false });
 
     if (req.authData === undefined) throw new ServerSetupError();
-    console.log('Trying to fetch user');
+    // console.log('Trying to fetch user');
     const user = await UserModel.getUserByEmail(req.authData.email);
-    console.log(user.id);
+    // console.log(user.id);
 
     console.log('Trying to create chocolate');
     const createdChocolate = await ChocolatesModel

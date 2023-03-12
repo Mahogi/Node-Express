@@ -3,7 +3,7 @@ import authMiddleware from '../middleware/auth-middleware';
 import { getOneChocolate } from './queries/get-one-chocolate';
 import { getChocolates } from './queries/get-chocolates';
 import { createChocolate } from './mutations/create-chocolate';
-import { deleteChocolate } from './mutations/delete-house';
+import { deleteChocolate } from './mutations/delete-chocolate';
 import { updateChocolate } from './mutations/update-chocolate';
 
 const chocolateRouter = express.Router();
