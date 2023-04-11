@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title":"Sausage",
+    "image":"https://img.freepik.com/free-vector/grilled-sausage-cartoon-style_1308-79157.jpg",
+    "description": "Perfect for grilling!",
+    "price":"2.99"
+  },
+  {
+    "id": 2,
+    "title":"Bread",
+    "image":"https://assets.bonappetit.com/photos/5c62e4a3e81bbf522a9579ce/5:4/w_2815,h_2252,c_limit/milk-bread.jpg",
+    "description": "Are you ready for a sandwich?",
+    "price":"1.99"
+  },
+  {
+    "id": 3,
+    "title":"Milk",
+    "image":"https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bWlsa3xlbnwwfHwwfHw%3D&w=1000&q=80",
+    "description": "It has a lot of calcium!",
+    "price":"2.49"
+  }
+]
