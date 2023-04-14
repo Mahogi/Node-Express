@@ -1,0 +1,66 @@
+body {
+    padding: 50px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.space-btw {
+    justify-content: space-between;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+.column {
+    flex-direction: column;
+}
+
+.grow1 {
+    flex: 1
+}
+
+.m-3 {
+    margin: 30px;
+}
+
+.mt-5 {
+    margin-top: 50px;
+}
+
+.p-1 {
+    padding: 10px;
+}
+
+.p-3 {
+    padding: 30px;
+}
+
+img {
+    width: 300px;
+}
+
+.profileImage {
+    height: 100px;
+    width: 100px;
+}
+
+.card {
+    padding: 10px;
+    background-color: #eeeeee;
+    margin: 10px;
+}
+
+.msg {
+    padding: 10px;
+    background-color: #e5e5e5;
+    margin-bottom: 10px;
+}
+
+.error {
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid black;
+    background-color: orangered;
+}
