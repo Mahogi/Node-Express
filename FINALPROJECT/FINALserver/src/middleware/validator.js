@@ -31,9 +31,9 @@ module.exports = (req, res, next) => {
     const re = /\S+@\S+\.\S+/;
 
     if (!re.test(email)) return res.send({success: false, message: "Incorrect email formal"});
-    if (password.length < 5 || password.length > 20) return res.send({
+    if (password.length < 4 || password.length > 20) return res.send({
         success: false,
-        message: "pass min 5, max 20 length"
+        message: "Minimum password length is 4, maximum 20."
     });
 
     const passHasError = passSymbols(password);

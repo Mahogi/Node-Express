@@ -1,6 +1,6 @@
-const bcrypt = require("bcrypt")
-const uid = require("uid")
-const userSchema = require('../schemas/userSchema')
+const bcrypt = require("bcrypt");
+const uid = require("uid");
+const userSchema = require('../schemas/userSchema');
 
 module.exports = {
   register: async (req, res) => {

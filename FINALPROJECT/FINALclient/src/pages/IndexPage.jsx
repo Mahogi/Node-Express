@@ -1,26 +1,61 @@
 import React, {useEffect, useState} from 'react';
+import SingleUserCard from "../components/SingleUserCard.jsx";
+import SinglePost from "../components/SinglePost.jsx";
+import {useNavigate, Link} from "react-router-dom";
 
 const IndexPage = ({secret, email}) => {
 
-  // const [posts, setPosts] = useState([])
-  //
-  // useEffect(() => {
-  //   fetch("http://localhost:3800/getall")
-  //     .then(res => res.json())
-  //     .then( data => {
-  //       setPosts(data.posts)
-  //     })
-  // }, [])
+  const nav = useNavigate();
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
+
+
+  useEffect(() => {
+    fetch("http://localhost:3800/getAllPosts")
+      .then(res => res.json())
+      .then( data => {
+        setPosts(data.posts);
+
+      })
+  }, []);
+
+
+  useEffect(() => {
+    fetch("http://localhost:3800/getAllUsers")
+      .then(res => res.json())
+      .then(data => {
+        setUsers(data.users);
+      })
+  }, []);
+
 
 
   return (
     <div>
       {/*{secret && <div> Welcome, {localStorage.getItem("username")}</div>}*/}
-      {secret && <div> Welcome, {email} </div>}
+      {secret && <div className="welcome"> Welcome, {email} </div>}
 
-      <div className="">
-        Here will be future posts
+        <div>
+          {secret &&<Link to="/createPost">Create Review</Link>}
+        </div>
+
+      <div className="d-flex">
+        <div className="users-list">
+          All registered users:
+          {users.map((x, i) => <SingleUserCard user={x} key={i}/>)}
+        </div>
+        <div>
+          All chocolate reviews:
+          <div className="d-flex flex-wrap">
+            {posts && posts.map((x, i) =>
+              <SinglePost post={x} key={i}/>
+            )}
+          </div>
+
+        </div>
+
       </div>
+
 
     </div>
   );

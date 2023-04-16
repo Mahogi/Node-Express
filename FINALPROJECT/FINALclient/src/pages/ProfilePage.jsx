@@ -17,7 +17,6 @@ const ProfilePage = ({secret, image, updatePhoto, email,setEmail}) => {
   const [openEmailSnackbar, setOpenEmailSnackbar] = React.useState(false);
   const [openPassSnackbar, setOpenPassSnackbar] = React.useState(false);
   const [getError, setError] = useState(null);
-  //const [getPassword, setPassword] = useState("");
 
   const editEmailRef = useRef();
   const editPasswordRef = useRef();
@@ -101,7 +100,7 @@ const ProfilePage = ({secret, image, updatePhoto, email,setEmail}) => {
         PROFILE PAGE
       </div>
       <div className="d-flex column">
-        <img src={image} alt="profile photo" className="p-1"/>
+        <img src={image} alt="profile photo" className="p-1 profilePhoto"/>
         <div>
           <input ref={editPhotoRef} type="text" placeholder="url"/>
           <button onClick={() => {
