@@ -2,11 +2,11 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import SinglePost from "../components/SinglePost.jsx";
 import {useNavigate} from "react-router-dom";
+import SingleReply from "../components/SingleReply.jsx";
 
 const PostByIdPage = ({secret, email, setOpenDeleteSnackbar}) => {
   const {id} = useParams();
   const [post, setPost] = useState([]);
-  //const [messages, setMessages] = useState([]);
   const nav = useNavigate();
   const replyRef = useRef();
 
@@ -68,15 +68,14 @@ const PostByIdPage = ({secret, email, setOpenDeleteSnackbar}) => {
   }
 
   return (
-    <div>
-      {id}
+    <div className="margin-auto width-500 d-flex column text-center">
       {post && <SinglePost post={post}/>}
       {secret && email === post.email &&
-        <button onClick={handleDelete}>Delete my review</button>
+        <button onClick={handleDelete} className="button">Delete my review</button>
       }
-
+      <span className="font-size">Replies to your review:</span>
       <div>
-        {post.replies && post.replies.map((x, i) => <div key={i}>{x.email} - {x.message}</div> )}
+        {post.replies && post.replies.map((x, i) => <SingleReply reply={x} key={i}/> )}
       </div>
 
       {secret && post &&

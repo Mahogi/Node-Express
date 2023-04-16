@@ -74,7 +74,7 @@ module.exports = {
 
     if (newPass.length < 5 || newPass.length > 20) return res.send({
       success: false,
-      message: "pass min 5, max 20 length"
+      message: "Password length is minimum 4, maximum 20 symbols"
     });
     let hasUpperCase = false;
     let hasNumber = false;

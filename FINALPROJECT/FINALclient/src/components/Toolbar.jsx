@@ -1,16 +1,14 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
 
 const Toolbar = ({image, logout}) => {
 
-  const inpRef = useRef();
-
   return (
     <div className="d-flex space-btw">
       <div>
-        <Link to="/login" className="m-3">Login</Link>
-        <Link to="/register" className="m-3">Register</Link>
-        <Link to="/" className="m-3">Home Page</Link>
+        <Link to="/login" className="m-3 button">Login</Link>
+        <Link to="/register" className="m-3 button">Register</Link>
+        <Link to="/" className="m-3 button">Home Page</Link>
 
       </div>
       <h1>What chocolate did you eat today?</h1>
@@ -19,13 +17,11 @@ const Toolbar = ({image, logout}) => {
           <>
           <div className="d-flex">
             <img className="profileImage" src={image} alt=""/>
-            <div className="d-flex column">
-              <Link to="/profile" className="m-3">My Profile</Link>
-              <button onClick={logout}>Logout</button>
+            <div className="d-flex column space-even">
+              <Link to="/profile" className="button">My Profile</Link>
+              <button onClick={logout} className="button">Logout</button>
             </div>
-
           </div>
-
           </>
         }
 

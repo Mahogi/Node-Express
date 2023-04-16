@@ -3,16 +3,6 @@ import {Snackbar} from '@mui/material';
 
 const ProfilePage = ({secret, image, updatePhoto, email,setEmail}) => {
 
-  // const [posts, setPosts] = useState([])
-  //
-  // useEffect(() => {
-  //   fetch("http://localhost:3800/getall")
-  //     .then(res => res.json())
-  //     .then( data => {
-  //       setPosts(data.posts)
-  //     })
-  // }, [])
-
   const [openPhotoSnackbar, setOpenPhotoSnackbar] = React.useState(false);
   const [openEmailSnackbar, setOpenEmailSnackbar] = React.useState(false);
   const [openPassSnackbar, setOpenPassSnackbar] = React.useState(false);
@@ -24,6 +14,7 @@ const ProfilePage = ({secret, image, updatePhoto, email,setEmail}) => {
 
   const handlePhotoClick = () => {
     setOpenPhotoSnackbar(true);
+    setError(null);
   };
 
   const handleClose = (event, reason) => {
@@ -91,22 +82,25 @@ const ProfilePage = ({secret, image, updatePhoto, email,setEmail}) => {
   };
 
   return (secret &&
-    <div>
-      {/*{secret && <div> Welcome, {localStorage.getItem("username")}</div>}*/}
-      {secret && <div> Welcome, {email} </div>}
+    <div className="margin-auto width-500">
+      {secret && <div className="welcome"> Welcome, {email} </div>}
       {getError && <div className="error"> {getError} </div>}
 
-      <div className="">
-        PROFILE PAGE
-      </div>
-      <div className="d-flex column">
-        <img src={image} alt="profile photo" className="p-1 profilePhoto"/>
+
+      <div className="d-flex column margin-auto">
+        <h1>PROFILE PAGE</h1>
+        <img src={image} alt="profile photo" className="p-1 profilePhoto margin-auto"/>
         <div>
-          <input ref={editPhotoRef} type="text" placeholder="url"/>
+          <input
+            ref={editPhotoRef}
+            type="text"
+            placeholder="url"
+            style={{width: '77%'}}
+            className="line-height-30 mh-1"/>
           <button onClick={() => {
             updatePhoto(editPhotoRef.current.value);
             handlePhotoClick();
-          }}>Update photo</button>
+          }} className="line-height-30">Update photo</button>
         </div>
 
         <Snackbar
@@ -117,35 +111,47 @@ const ProfilePage = ({secret, image, updatePhoto, email,setEmail}) => {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
         </Snackbar>
+        <div className="">
+          <input
+            ref={editEmailRef}
+            type="text"
+            defaultValue={email}
+            style={{width: '77%'}}
+            className="line-height-30 mh-1"
+          />
+          <button onClick={
+            async () => await updateEmail(editEmailRef.current.value)
+          } className="line-height-30">Update email</button>
+          <Snackbar
+            open={openEmailSnackbar}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            message="Email was edited successfully!"
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+          </Snackbar>
+        </div>
+        <div className="">
+          <input
+            ref={editPasswordRef}
+            type="text"
+            style={{width: '72%'}}
+            className="line-height-30 mh-1"/>
+          <button onClick={
+            async () => await updatePassword(editPasswordRef.current.value)
+          } className="line-height-30">Update password</button>
+          <Snackbar
+            open={openPassSnackbar}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            message="Password was edited successfully!"
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+          </Snackbar>
+        </div>
       </div>
-      <div>
-        <input ref={editEmailRef} type="text" defaultValue={email}/>
-        <button onClick={
-          async () => await updateEmail(editEmailRef.current.value)
-        }>Update email</button>
-        <Snackbar
-          open={openEmailSnackbar}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          message="Email was edited successfully!"
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        >
-        </Snackbar>
-      </div>
-      <div>
-        <input ref={editPasswordRef} type="text"/>
-        <button onClick={
-          async () => await updatePassword(editPasswordRef.current.value)
-        }>Update password</button>
-        <Snackbar
-          open={openPassSnackbar}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          message="Password was edited successfully!"
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        >
-        </Snackbar>
-      </div>
+
+
     </div>
   );
 };

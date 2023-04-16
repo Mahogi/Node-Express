@@ -46,10 +46,10 @@ const LoginPage = ({setSecret, setImage, setEmail}) => {
   return (
     <>
     {getError && <div className="error"> {getError} </div>}
-    <div className="d-flex column">
-      <input type="text" ref={emailRef} placeholder="email"/>
-      <input type="text" ref={passRef} placeholder="password"/>
-      <button onClick={login}>LOGIN</button>
+    <div className="d-flex column width-500 margin-auto">
+      <input type="text" ref={emailRef} placeholder="email" className="line-height-30"/>
+      <input type="text" ref={passRef} placeholder="password" className="line-height-30"/>
+      <button onClick={login} className="line-height-30">LOGIN</button>
     </div>
     </>
   );

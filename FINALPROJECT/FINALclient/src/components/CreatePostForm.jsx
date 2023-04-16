@@ -39,13 +39,12 @@ const CreatePostForm = ({secret}) => {
   }
 
   return (
-    <div>
-      <input type="text" ref={titleRef} placeholder="title"/>
-      <input type="text" ref={imageRef} placeholder="image"/>
-      <input type="text" ref={descriptionRef} placeholder="description"/>
+    <div className="d-flex column width-500 margin-auto">
+      <input type="text" ref={titleRef} placeholder="brand" className="line-height-30"/>
+      <input type="text" ref={imageRef} placeholder="image" className="line-height-30"/>
+      <input type="text" ref={descriptionRef} placeholder="description" className="line-height-30"/>
 
-
-      <button onClick={createPost}>CREATE POST</button>
+      <button onClick={createPost} className="button">CREATE POST</button>
     </div>
   );
 };

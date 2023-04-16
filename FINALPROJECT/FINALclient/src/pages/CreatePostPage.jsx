@@ -3,8 +3,8 @@ import CreatePostForm from "../components/CreatePostForm.jsx";
 
 const CreatePostPage = ({secret}) => {
   return (
-    <div>
-      <h1>Create Post</h1>
+    <div className="text-center">
+      <h2>Create Post</h2>
       <CreatePostForm secret={secret}  />
     </div>
   );

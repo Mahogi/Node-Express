@@ -43,12 +43,12 @@ const RegisterPage = () => {
   return (
     <>
       {getError && <div className="error"> {getError} </div>}
-    <div className="d-flex column">
-      <input type="text" ref={emailRef} placeholder="Email"/>
-      <input type="text" ref={passRef} placeholder="Password"/>
-      <input type="text" ref={passTwoRef} placeholder="Repeat password"/>
+    <div className="d-flex column width-500 margin-auto">
+      <input type="text" ref={emailRef} placeholder="Email" className="line-height-30"/>
+      <input type="text" ref={passRef} placeholder="Password" className="line-height-30"/>
+      <input type="text" ref={passTwoRef} placeholder="Repeat password" className="line-height-30"/>
 
-      <button onClick={register}>Register</button>
+      <button onClick={register} className="line-height-30">Register</button>
     </div>
     </>
   );

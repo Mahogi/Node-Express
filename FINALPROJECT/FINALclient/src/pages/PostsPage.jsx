@@ -21,10 +21,9 @@ const PostsPage = () => {
 
   return (
     <div>
+      <p className="font-size">Posts created by {params.email}</p>
       <div className="d-flex flex-wrap">
-
         {posts.map((x, i) => <SinglePost post={x} key={i}/>)}
-
       </div>
     </div>
   );

@@ -32,20 +32,21 @@ const IndexPage = ({secret, email}) => {
 
   return (
     <div>
-      {/*{secret && <div> Welcome, {localStorage.getItem("username")}</div>}*/}
-      {secret && <div className="welcome"> Welcome, {email} </div>}
+        <div className="text-center margin-auto">
+          {secret && <div className="welcome"> Welcome, {email} </div>}
+          <div className="mv-1">
+            {secret &&<Link to="/createPost" className="button">Create Review</Link>}
+          </div>
 
-        <div>
-          {secret &&<Link to="/createPost">Create Review</Link>}
         </div>
 
       <div className="d-flex">
         <div className="users-list">
-          All registered users:
+          <span className="font-size">All registered users:</span>
           {users.map((x, i) => <SingleUserCard user={x} key={i}/>)}
         </div>
         <div>
-          All chocolate reviews:
+          <span className="font-size">All chocolate reviews:</span>
           <div className="d-flex flex-wrap">
             {posts && posts.map((x, i) =>
               <SinglePost post={x} key={i}/>

@@ -5,16 +5,16 @@ const SinglePost = ({post}) => {
   const nav = useNavigate();
 
   return (
-    <div className="card" onClick={() => nav(`/post/${post._id}`)}>
-      <h2>{post.title}</h2>
-      <img src={post.image} alt="" />
+    <div className="card text-center width-350 margin-auto">
+      <div className="" onClick={() => nav(`/post/${post._id}`)}>
+        <h2>{post.title}</h2>
+        <img src={post.image} alt="" />
 
-      <p>{post.description}</p>
+        <p>{post.description}</p>
+      </div>
       <Link to={'/posts/'+post.email}>{post.email}</Link>
-      {/*<hr/>*/}
-      {/*REPLIES:*/}
-      {/*{post.replies && post.replies.map((x, i) => <div>{x}</div> )}*/}
     </div>
+
   );
 };
 

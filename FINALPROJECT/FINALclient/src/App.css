@@ -10,6 +10,10 @@ body {
     justify-content: space-between;
 }
 
+.space-even {
+    justify-content: space-evenly;
+}
+
 .flex-wrap {
     flex-wrap: wrap;
 }
@@ -21,12 +25,24 @@ body {
     flex: 1
 }
 
+.m-1 {
+    margin: 20px;
+}
+
 .m-3 {
     margin: 30px;
 }
 
+.mv-1 {
+    margin: 15px 0;
+}
+
 .mt-5 {
     margin-top: 50px;
+}
+
+.mh-1 {
+    margin: 0 5px;
 }
 
 .p-1 {
@@ -37,14 +53,45 @@ body {
     padding: 30px;
 }
 
+.width-500 {
+    width: 500px;
+}
+
+.width-350 {
+    width: 400px;
+}
+
+.margin-auto {
+    margin: 0 auto;
+}
+
+.text-center {
+    text-align: center;
+    justify-content: center;
+}
+
 h1 {
-    font-size: 60px;
-    font-family: "Arvigo", sans-serif;
+    font-size: 50px;
+    font-family: "Duvall", sans-serif;
+    text-align: center;
+}
+
+.button {
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #faebd7;
+    text-decoration: none;
+}
+
+.line-height-30 {
+    line-height: 30px;
 }
 
 .profileImage {
     height: 100px;
     width: 100px;
+    margin-right: 10px;
 }
 
 .profilePhoto {
@@ -101,4 +148,15 @@ h1 {
 
 .users-list {
     width: 500px;
+}
+
+.font-size {
+    font-size: 20px;
+    padding: 5px;
+}
+
+.reply-card {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid blue;
 }
